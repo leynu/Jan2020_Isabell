@@ -6,21 +6,21 @@ library(here)
 tbl1 <-
   paste0(here("namn-1998-2019"), "/", list.files(here("namn-1998-2019"), pattern = "*.csv"))[1:3] %>% 
   map_df(~cbind(read_delim(., 
-                     delim = ";", 
-                     col_types = 
-                       cols_only(
-                         X1 = col_double(),
-                         X2 = col_character(),
-                         X3 = col_character(),
-                         X4 = col_character()),
-                     escape_double = FALSE, col_names = FALSE, 
-                     trim_ws = TRUE, skip = 8),
-         year = str_extract_all(basename(.), "\\d{4}", simplify = T)
-         )) %>% 
+                           delim = ";", 
+                           col_types = 
+                             cols_only(
+                               X1 = col_double(),
+                               X2 = col_character(),
+                               X3 = col_character(),
+                               X4 = col_character()),
+                           escape_double = FALSE, col_names = FALSE, 
+                           trim_ws = TRUE, skip = 8),
+                year = str_extract_all(basename(.), "\\d{4}", simplify = T)
+  )) %>% 
   select(rank_nr = X1, name = X2, count = X3, count_1000 = X4, year)
 
 tbl2 <-
-  paste0(here("namn-1998-2019"), "/", list.files(here("namn-1998-2019"), pattern = "*.csv"))[-(1:3)] %>% 
+  paste0(here("namn-1998-2019"), "/", list.files(here("namn-1998-2019"), pattern = "*.csv"))[4:22] %>% 
   map_df(~cbind(read_delim(., 
                            delim = ";", 
                            col_types = 
@@ -36,17 +36,17 @@ tbl2 <-
   )) %>% 
   select(rank_nr = X1, name = X3, count = X4, count_1000 = X5, year)
 
-tbl3 <- read_delim("namn-1998-2019/be0001namntab20-2020.csv", 
-                                   delim = ";", 
-                                   col_types = 
-                                     cols_only(
-                                       X1 = col_double(),
-                                       X2 = col_character(),
-                                       X3 = col_character(),
-                                       X4 = col_character(),
-                                       X5 = col_character()),
-                                   escape_double = FALSE, col_names = FALSE, 
-                                   trim_ws = TRUE, skip = 13) %>% 
+tbl3 <- read_delim("namn-1998-2019/Flickor 2020-Table 1.csv", 
+                   delim = ";", 
+                   col_types = 
+                     cols_only(
+                       X1 = col_double(),
+                       X2 = col_character(),
+                       X3 = col_character(),
+                       X4 = col_character(),
+                       X5 = col_character()),
+                   escape_double = FALSE, col_names = FALSE, 
+                   trim_ws = TRUE, skip = 13) %>% 
   mutate(year = 2020) %>% 
   select(rank_nr = X1, name = X3, count = X4, count_1000 = X5, year)
 
@@ -60,6 +60,16 @@ tbl <- rbind(tbl1, tbl2, tbl3) %>%
   mutate(label_y = cumsum(count)) %>%
   ungroup()
   
+my_background <- "#e2e8eb"
+
+cbbPalette <- c("#ee5935", "#f6b042")
+a <- c(rep("#4D4D4D", length(1998:2009)), "#ee5935", rep("#4D4D4D", length(2011:2020)))
+
+table(tbl$name)
+
+
+
+
 
 ggplot(tbl,
        aes(x = year, y = count, fill=name)) +
@@ -116,11 +126,5 @@ ggplot(tbl,
             #angle = 90
             ) #+ scale_colour_manual(values=c("#e2e8eb", "#e2e8eb"))
 
-my_background <- "#e2e8eb"
-
-cbbPalette <- c("#ee5935", "#f6b042")
-a <- c(rep("#4D4D4D", length(1998:2009)), "#ee5935", rep("#4D4D4D", length(2011:2020)))
-
-table(tbl$name)
 
 
