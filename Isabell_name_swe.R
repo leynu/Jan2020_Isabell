@@ -78,8 +78,7 @@ ggplot(tbl,
        subtitle = "You always will be my one and only",
        caption = c("Data source: Statistics Sweden. The number of girls named Isabella/Isabelle between 1998 and 2020.\nTheir ranking within each year is also provided.", "\n\n@leynu | Jan 2022")) +
   theme_bw() + 
-  theme(#text=element_text(size=16,  family=the_font),
-        plot.title = element_text(size = rel(2), lineheight = .9, 
+  theme(plot.title = element_text(size = rel(2), lineheight = .9, 
                                   face = "bold",
                                   color = "#4D4D4D"),
         plot.subtitle = element_text(size = rel(1.15), 
@@ -94,11 +93,9 @@ ggplot(tbl,
         panel.border = element_blank(),
         plot.background = element_rect(fill = my_background),
         panel.background = element_rect(fill = my_background),
-        #legend.position='top', 
         legend.justification='right',
         legend.direction='vertical',
         legend.position = c(1, 1.08),
-        #legend.position="bottom",
         legend.title = element_blank(),
         legend.text = element_text(color = "#4D4D4D"),
         legend.background = element_rect(fill = my_background),
@@ -115,16 +112,11 @@ ggplot(tbl,
   scale_y_continuous(breaks = seq(0, 1200, 200), limits = c(0, 1200)) +
   expand_limits(x = 0, y = 0) +
   scale_fill_manual(values=cbbPalette) +
-  geom_text(aes(y = label_y, label = rank_nr#, 
-                #colour=name
-                ), 
+  geom_text(aes(y = label_y, label = rank_nr), 
             vjust = 1.5, 
             hjust = 0.5, 
             colour = "#4D4D4D",
-            size = 3.25#,
-            #fontface='bold'#,
-            #angle = 90
-            ) #+ scale_colour_manual(values=c("#e2e8eb", "#e2e8eb"))
+            size = 3.25) 
 
 
 
